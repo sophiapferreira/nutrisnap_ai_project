@@ -1,4 +1,5 @@
 # simple_gemini_analyzer.py
+pip install google-generativeai python-dotenv Pillow
 import os
 import sys
 import argparse
