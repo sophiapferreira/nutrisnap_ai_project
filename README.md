@@ -18,23 +18,17 @@ O NutriSnap AI permite:
 
 ### 1. Clone o repositório
 
-```bash
 git clone https://github.com/sophiapferreira/nutrisnap_ai_project.git
 cd nutrisnap_ai_project
 
 2. Crie e ative um ambiente virtual (opcional, mas recomendado)
 
-bash
-Copiar
-Editar
 python -m venv venv
 source venv/bin/activate  # Linux/Mac
 venv\Scripts\activate     # Windows
 
 3. Instale as dependências
-bash
-Copiar
-Editar
+
 pip install -r requirements.txt
 
 4. Configure sua chave de API do Gemini
@@ -46,9 +40,7 @@ GEMINI_API_KEY="sua-chave-do-gemini"
 Use o arquivo .env.example como referência.
 
 5. Execute o script
-bash
-Copiar
-Editar
+
 python scripts/simple_gemini_analyzer.py
 
 🧩 Escolhas de Design e Arquitetura
@@ -113,8 +105,7 @@ Saída: texto contendo descrição dos alimentos e estimativa calórica por comp
 - Exportação para PDF/CSV.
 - Avaliação cruzada com base de dados nutricional confiável (ex: TACO, USDA).
 
-📄 Licença
-Este projeto está licenciado sob a MIT License.
+
 
 
 
