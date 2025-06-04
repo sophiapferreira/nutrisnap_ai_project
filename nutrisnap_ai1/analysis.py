@@ -1,4 +1,4 @@
-# nutrisnap_ai/analysis.py
+# nutrisnap_ai1/analysis.py
 import google.generativeai as genai
 from PIL import Image
 import json

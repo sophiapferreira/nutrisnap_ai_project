@@ -1,4 +1,4 @@
-# nutrisnap_ai/config.py
+# nutrisnap_ai1/config.py
 import os
 from dotenv import load_dotenv
 from .utils import print_log # Importa print_log do mesmo pacote

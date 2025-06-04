@@ -1,109 +1,131 @@
-# 🍽️ NutriSnap AI - Análise Calórica Inteligente de Pratos
+# NutriSnap AI 🥗
 
-Este projeto foi desenvolvido como parte do desafio técnico da **Gs Company**. O objetivo é criar um script Python capaz de receber imagens de pratos de comida, interagir com um modelo de linguagem multimodal (LLM) e retornar uma análise dos alimentos e uma estimativa calórica para o prato.
+NutriSnap AI é um projeto que utiliza o modelo multimodal Gemini do Google para analisar imagens de pratos de comida, identificar os alimentos e estimar o total de calorias, bem como as calorias por alimento. Este repositório contém um Mínimo Produto Viável (MVP) e uma estrutura para futuras expansões.
 
----
+## Funcionalidades (MVP)
 
-## 🧠 Visão Geral
+* Análise de imagens de pratos de comida via linha de comando.
+* Identificação de itens alimentares visíveis na imagem.
+* Estimativa de calorias por item e para a refeição total.
+* Saída dos resultados da análise em formato JSON.
+* Uso de variáveis de ambiente para gerenciamento seguro da chave da API Gemini.
+* Estrutura de projeto modular e organizada.
+* Logs simples via `print()` para depuração.
+* Tratamento básico de exceções e fallbacks.
 
-O NutriSnap AI permite:
-- Enviar uma ou mais imagens de alimentos.
-- Processar as imagens com o modelo **Gemini Pro Vision** (via Google AI Studio).
-- Retornar a descrição dos alimentos e estimativa de calorias do prato como um todo ou por componentes.
-- Exibir o resultado final ao usuário em formato simples e direto.
+## Estrutura do Projeto
 
----
+nutrisnap_ai_project/
+├── .env.example              # Exemplo para variáveis de ambiente
+├── .gitignore                # Arquivos e pastas a serem ignorados pelo Git
+├── data/
+│   ├── input_images/         # Para suas imagens de entrada
+│   │   ├── example_meal.jpg  # Adicione sua imagem de exemplo aqui
+│   │   └── .gitkeep
+│   └── results/              # Para salvar os JSONs de resultado
+│       └── .gitkeep
+├── nutrisnap_ai/             # Pacote principal da aplicação Python
+│   ├── init.py
+│   ├── analysis.py           # Lógica de análise de imagem com Gemini
+│   ├── config.py             # Configurações (API Key, prompt)
+│   └── utils.py              # Funções utilitárias (logs, manipulação de arquivos)
+├── requirements.txt          # Dependências do projeto
+├── README.md                 # Este arquivo
+├── scripts/
+│   └── run_analysis.py       # Script principal para executar a análise
+├── simple_gemini_analyzer.py # Script simples para testes diretos com a API
 
-## ⚙️ Configuração e Execução
+## Configuração do Ambiente
 
-### 1. Clone o repositório
+1.  **Clone o repositório:**
+    ```bash
+    git clone <url_do_seu_repositorio_github>
+    cd nutrisnap_ai_project
+    ```
 
-git clone https://github.com/sophiapferreira/nutrisnap_ai_project.git
-cd nutrisnap_ai_project
+2.  **Crie e ative um ambiente virtual Python:**
+    ```bash
+    python -m venv venv
+    # No Linux/macOS:
+    source venv/bin/activate
+    # No Windows (Prompt de Comando):
+    # venv\Scripts\activate
+    # No Windows (PowerShell):
+    # venv\Scripts\Activate.ps1
+    ```
 
-2. Crie e ative um ambiente virtual (opcional, mas recomendado)
+3.  **Instale as dependências:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate     # Windows
+4.  **Configure a Chave da API Gemini:**
+    * Renomeie o arquivo `.env.example` para `.env`.
+    * Abra o arquivo `.env` e substitua `"SUA_CHAVE_DE_API_AQUI"` pela sua chave real da API Gemini.
 
-3. Instale as dependências
+5.  **Adicione uma Imagem de Exemplo:**
+    * Coloque uma imagem de um prato de comida no diretório `data/input_images/` e nomeie-a como `example_meal.jpg` (ou use outro nome e ajuste o comando de execução).
 
-pip install -r requirements.txt
+## Como Usar
 
-4. Configure sua chave de API do Gemini
+### Script Principal (`run_analysis.py`)
 
-Crie um arquivo .env com o seguinte conteúdo:
+Este é o script recomendado para análises usando a estrutura do projeto. Execute a partir do diretório raiz (`nutrisnap_ai_project/`):
 
-GEMINI_API_KEY="sua-chave-do-gemini"
+```bash
+python scripts/run_analysis.py --image_path data/input_images/example_meal.jpg
 
-Use o arquivo .env.example como referência.
+Opções:
 
-5. Execute o script
+--output_dir CAMINHO_CUSTOMIZADO: Especifica um diretório diferente para salvar os resultados JSON. O padrão é data/results/.
+--mock: Executa em modo de simulação (mock) sem fazer chamadas reais à API Gemini, usando dados de exemplo definidos no código. Útil para testes rápidos do fluxo da aplicação.
+Os resultados da análise (um arquivo JSON) serão salvos no diretório especificado (padrão: data/results/), com um nome baseado no arquivo de imagem de entrada (ex: example_meal_analysis.json).
 
-python scripts/simple_gemini_analyzer.py
+Script Simples de Teste (simple_gemini_analyzer.py)
+Este script é para testes mais diretos e isolados com a API Gemini. Execute a partir do diretório raiz:
 
-🧩 Escolhas de Design e Arquitetura
+python simple_gemini_analyzer.py data/input_images/example_meal.jpg
 
-🔷 Modelo Utilizado
+Ele imprimirá o resultado JSON diretamente no console.
 
-Gemini Pro Vision (Google AI Studio): escolhido por sua capacidade de interpretar imagens e responder com linguagem natural de forma rápida e precisa.
+Prompt Utilizado para o Gemini
+O sistema utiliza um prompt otimizado (definido em nutrisnap_ai/config.py) para instruir o modelo Gemini. O objetivo é obter uma identificação clara dos alimentos, estimativas calóricas, e uma indicação da confiança do modelo, tudo em formato JSON.
 
-🏗️ Prompt Engineering
+Resumo do Prompt:
 
-Foram feitos ajustes iterativos no prompt para guiar o modelo a:
+Pede para identificar itens alimentares e estimar calorias (por item e total).
+Solicita que o modelo indique seu nível de confiança ("Alto", "Médio", "Baixo") e forneça notas sobre incertezas.
 
-- Descrever com clareza os itens alimentares detectados.
-- Estimar calorias com base em porções realistas.
-- Ignorar elementos irrelevantes da imagem (fundo, utensílios).
+Exige que a resposta seja exclusivamente um objeto JSON com uma estrutura definida:
+{
+  "total_calories": null, // ou integer
+  "identified_items": [
+    {
+      "item_name": "string",
+      "estimated_calories": null, // ou integer
+      "confidence": "Alto|Médio|Baixo",
+      "notes": "string"
+    }
+  ],
+  "analysis_summary_notes": "string"
+}
 
-📚 Bibliotecas Utilizadas
+Tratamento de Erros e Fallbacks
+Chave de API Ausente: O script avisará e não prosseguirá se a chave não for encontrada (a menos que em modo mock).
+Imagem Inválida/Não Encontrada: Mensagens de erro serão exibidas.
+Falhas na API Gemini: Erros de comunicação, prompts bloqueados, etc., são capturados e registrados.
+Parsing da Resposta: Se a resposta do Gemini não for um JSON válido (apesar do prompt), o sistema tentará limpar a resposta ou registrará o erro e poderá retornar o texto bruto para depuração.
+Próximos Passos e Melhorias Futuras
+Este MVP é a base. Sugestões para evolução incluem:
 
-requests: para chamadas HTTP à API.
-dotenv: para gerenciar a chave da API de forma segura.
-Pillow: para abrir e tratar imagens.
-json, os, time: utilitários para controle de arquivos e fluxo.
+Acurácia do Modelo: Refinamento contínuo de prompts, coleta de feedback, exploração de fine-tuning.
+Estrutura de Código: Aplicação de mais princípios SOLID, design patterns, e возможно uma arquitetura hexagonal.
+Interface do Usuário: Desenvolvimento de uma API Web (FastAPI/Flask) e um frontend (React/Vue) ou app mobile.
+Testes Automáticos: Implementação de testes unitários, de integração e E2E robustos.
+Padronização de Logs: Uso de logging estruturado e centralizado.
+Integração com Banco de Dados: Para persistir análises, dados de usuários, feedback.
+Integração com APIs Externas: Bancos de dados nutricionais (USDA, TACO) para enriquecer dados.
 
-🖼️ Entrada e Saída
-
-Entrada: imagens .jpg ou .png de pratos completos ou refeições.
-
-Saída: texto contendo descrição dos alimentos e estimativa calórica por componente ou total.
-
-📌 Escopo do Projeto
-
-✅ O que o script faz
-
-- Recebe imagens de pratos.
-- Envia a imagem para o LLM da Gemini.
-- Exibe uma resposta com análise e calorias.
-
-❌ O que o script não faz (ainda)
-
-- Classificação por tipo de refeição.
-- Exportação de relatórios.
-- Interface gráfica ou web.
-- Validação rigorosa da entrada.
-
-🧗‍♀️ Desafios Encontrados
-
-- Restrições de acesso à API: soluções usando variáveis de ambiente para segurança.
-- Qualidade das respostas do LLM: foi necessário afinar os prompts e testar diferentes descrições.
-- Imagens com baixa qualidade: afetaram a precisão das respostas, exigindo novas tentativas.
-
-🚧 Limitações Conhecidas
-
-- A estimativa calórica ainda depende muito da qualidade da imagem e do "contexto visual".
-- Respostas às vezes são vagas, principalmente em pratos muito misturados.
-- O modelo pode errar alimentos visualmente semelhantes.
-
-🚀 Melhorias Futuras
-
-- Treinar um classificador auxiliar com modelo de visão próprio (ex: YOLO, Detectron).
-- Interface web com upload direto de imagens.
-- Armazenamento de histórico de análises.
-- Exportação para PDF/CSV.
-- Avaliação cruzada com base de dados nutricional confiável (ex: TACO, USDA).
 
 
 

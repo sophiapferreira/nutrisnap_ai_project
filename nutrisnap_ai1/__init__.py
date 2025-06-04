@@ -1,4 +1,4 @@
-# Este arquivo torna o diretório 'nutrisnap_ai' um pacote Python.
+# Este arquivo torna o diretório 'nutrisnap_ai1' um pacote Python.
 # Pode conter importações de nível de pacote ou inicializações, se necessário.
 
 # Exemplo de como tornar funções de submódulos mais fáceis de importar:

@@ -1,4 +1,4 @@
-# nutrisnap_ai/utils.py
+# nutrisnap_ai1/utils.py
 import json
 import os
 from datetime import datetime
