@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+*.so
+*.pth
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+pip-selfcheck.json
+
+# Environment variables - CRÍTICO PARA SEGURANÇA
+.env
+
+# IDE / Editor specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Arquivos de dados gerados (resultados)
+data/results/*
+!data/results/.gitkeep
+
+# Arquivos de log (se usar logging para arquivos)
+*.log
+logs/
+data/logs/*
+!data/logs/.gitkeep
+
+# Artefatos de teste
+.pytest_cache/
+.coverage
+htmlcov/
